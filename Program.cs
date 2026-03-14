@@ -16,7 +16,7 @@ string endpoint = config.GetSection("OpenAI").GetValue<string>("EndPoint")?? thr
 string apiKey = config.GetSection("OpenAI").GetValue<string>("ApiKey") ?? throw new ArgumentException("OpenAIKey not set");
 
 //1. Basics of SK
-//await new BasicsOfSK().SimplestPromptLoop(deploymentName,endpoint,apiKey);
+await new BasicsOfSK().SimplestPromptLoop(deploymentName,endpoint,apiKey);
 //await new BasicsOfSK().SimplestPromptLoopUsingConfig(deploymentName, endpoint, apiKey);
 //await new BasicsOfSK().AddingMessageHistory(deploymentName,endpoint,apiKey);
 //await new BasicsOfSK().AddingMessageHistoryWithLogging(deploymentName, endpoint, apiKey);
