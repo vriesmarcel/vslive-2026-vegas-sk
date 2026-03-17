@@ -42,7 +42,7 @@ string dal_e_apiKey = config.GetSection("OpenAI").GetValue<string>("DalE-ApiKey"
 
 //5. multi modal
 //await new MultiModal(config).IntepretAnImageAndProvideSuggestions(deploymentName, endpoint, apiKey);
-//await new MultiModal(config).IntepretAnDocumentAndProvideSuggestions(deploymentName, endpoint, apiKey);
+await new MultiModal(config).GetDatafromHandWrittenForm(deploymentName, endpoint, apiKey);
 //string memory_key = config.GetSection("SM").GetValue<string>("key") ?? throw new ArgumentException("Semeantic Memory Key not set");
 //string memory_ip = config.GetSection("SM").GetValue<string>("ip") ?? throw new ArgumentException("Semeantic Memory http location not set");
 
