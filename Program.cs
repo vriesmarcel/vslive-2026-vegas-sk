@@ -16,7 +16,7 @@ string endpoint = config.GetSection("OpenAI").GetValue<string>("EndPoint")?? thr
 string apiKey = config.GetSection("OpenAI").GetValue<string>("ApiKey") ?? throw new ArgumentException("OpenAIKey not set");
 
 //1. Basics of SK
-await new BasicsOfSK().SimplestPromptLoop(deploymentName,endpoint,apiKey);
+//await new BasicsOfSK().SimplestPromptLoop(deploymentName,endpoint,apiKey);
 //await new BasicsOfSK().SimplestPromptLoopUsingConfig(deploymentName, endpoint, apiKey);
 //await new BasicsOfSK().AddingMessageHistory(deploymentName,endpoint,apiKey);
 //await new BasicsOfSK().AddingMessageHistoryWithLogging(deploymentName, endpoint, apiKey);
@@ -42,7 +42,7 @@ string dal_e_apiKey = config.GetSection("OpenAI").GetValue<string>("DalE-ApiKey"
 
 //5. multi modal
 //await new MultiModal(config).IntepretAnImageAndProvideSuggestions(deploymentName, endpoint, apiKey);
-
+//await new MultiModal(config).IntepretAnDocumentAndProvideSuggestions(deploymentName, endpoint, apiKey);
 //string memory_key = config.GetSection("SM").GetValue<string>("key") ?? throw new ArgumentException("Semeantic Memory Key not set");
 //string memory_ip = config.GetSection("SM").GetValue<string>("ip") ?? throw new ArgumentException("Semeantic Memory http location not set");
 
@@ -53,7 +53,7 @@ string dal_e_apiKey = config.GetSection("OpenAI").GetValue<string>("DalE-ApiKey"
 //await new ChatWithMCP().ChatWithGitHubMCP(deploymentName, endpoint, apiKey);
 var pattToken = config.GetSection("mcp").GetValue<string>("git_mcp_pat_token") ?? throw new ArgumentException("git_mcp_pat_token not set");
 
-await new ChatWithMCP().ChatCreateIssueViaMCP(deploymentName, endpoint, apiKey, pattToken);
+//await new ChatWithMCP().ChatCreateIssueViaMCP(deploymentName, endpoint, apiKey, pattToken);
 
 
 

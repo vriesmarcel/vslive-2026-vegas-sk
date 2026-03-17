@@ -11,7 +11,7 @@ namespace UseSemanticKernelFromNET
         public async Task SimplestPromptLoop(string deploymentName, string endpoint, string apiKey)
         {
             Kernel kernel = Kernel.CreateBuilder().
-                AddOpenAIChatCompletion(deploymentName, new Uri(endpoint), apiKey).Build();
+                AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey).Build();
 
             string response = string.Empty;
 

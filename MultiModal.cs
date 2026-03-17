@@ -1,13 +1,23 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Azure.AI.OpenAI;
+using Azure;
+using CommunityToolkit.HighPerformance;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.KernelMemory.DataFormats;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using SharpCompress.Common;
+using System;
 using System.Transactions;
 using UseSemanticKernelFromNET.Plugins;
+using OpenAI.VectorStores;
+using OpenAI.Files;
+using OpenAI.Assistants;
 
-    namespace UseSemanticKernelFromNET
+namespace UseSemanticKernelFromNET
 {
     public class MultiModal(IConfiguration configuration)
     {
@@ -23,10 +33,10 @@ using UseSemanticKernelFromNET.Plugins;
                 """;
             string imgUrl = "https://raw.githubusercontent.com/vriesmarcel/vslive-2025-vegas-sk/refs/heads/main/NL-Map-Highlight.png";
 
-    
+
 
             Kernel kernel = Kernel.CreateBuilder().
-                AddAzureOpenAIChatCompletion(deploymentName, endpoint,apiKey)
+                AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey)
                 .Build();
             var history = new ChatHistory();
             history.AddSystemMessage(prompt);
@@ -41,5 +51,7 @@ using UseSemanticKernelFromNET.Plugins;
             var result = await chat.GetChatMessageContentAsync(history);
             Console.WriteLine(result);
         }
+
+
     }
 }

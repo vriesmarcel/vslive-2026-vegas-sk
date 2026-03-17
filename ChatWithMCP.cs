@@ -23,7 +23,7 @@ namespace UseSemanticKernelFromNET
         public async Task ChatWithGitHubMCP(string deploymentName, string endpoint, string apiKey, string github_mcp_pat)
         {
             Kernel kernel = CreateKernel(deploymentName, endpoint, apiKey);
-            IMcpClient mcpClient = await CreateMCPClient(kernel, github_mcp_pat);
+            McpClient mcpClient = await CreateMCPClient(kernel, github_mcp_pat);
 
             // Enable automatic function calling
             OpenAIPromptExecutionSettings executionSettings = new()
@@ -41,7 +41,7 @@ namespace UseSemanticKernelFromNET
         public async Task ChatCreateIssueViaMCP(string deploymentName, string endpoint, string apiKey, string github_mcp_pat)
         {
             Kernel kernel = CreateKernel(deploymentName, endpoint, apiKey);
-            IMcpClient mcpClient = await CreateMCPClient(kernel, github_mcp_pat);
+            McpClient mcpClient = await CreateMCPClient(kernel, github_mcp_pat);
 
             // Enable automatic function calling
             OpenAIPromptExecutionSettings executionSettings = new()
@@ -88,34 +88,20 @@ namespace UseSemanticKernelFromNET
             return kernel;
         }
 
-        private async Task<IMcpClient> CreateMCPClient(Kernel kernel, string github_mcp_pat)
+        private async Task<McpClient> CreateMCPClient(Kernel kernel, string github_mcp_pat)
         {
 
-            var sharedHandler = new SocketsHttpHandler
-            {
-                PooledConnectionLifetime = TimeSpan.FromMinutes(2),
-                PooledConnectionIdleTimeout = TimeSpan.FromMinutes(1),
 
-            };
-            var httpClient = new HttpClient(sharedHandler);
-            httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {github_mcp_pat}");
-            var consoleLoggerFactory = LoggerFactory.Create(builder =>
-
-            {
-                builder.AddConsole();
-            });
-
-            var serverUrl = "https://api.githubcopilot.com/mcp/";
-            var transport = new SseClientTransport(new()
-            {
-                Endpoint = new Uri(serverUrl),
-                Name = "GitHub",
-             
-            }, httpClient, consoleLoggerFactory, true);
-
-            // Create an MCPClient for the protected MCP server
-            var mcpClient = await McpClientFactory.CreateAsync(transport, loggerFactory: consoleLoggerFactory);
-
+            var mcpClient = await McpClient.CreateAsync(new HttpClientTransport(
+                new HttpClientTransportOptions
+                {
+                    Name = "GitHub",
+                    Endpoint = new Uri("https://api.githubcopilot.com/mcp/"),
+                    AdditionalHeaders = new Dictionary<string, string>
+                    {
+                        ["Authorization"] = $"Bearer {github_mcp_pat}"
+                    }
+                }));
 
             var tools = await mcpClient.ListToolsAsync();
             foreach (var tool in tools)
